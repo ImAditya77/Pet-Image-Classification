@@ -1,59 +1,254 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Pet Image Classifier</title>
 
-    <style>
+<meta charset="UTF-8">
 
-        body{
-            font-family:Arial;
-            background:#f5f5f5;
-            text-align:center;
-            margin-top:60px;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .box{
-            width:420px;
-            margin:auto;
-            background:white;
-            padding:25px;
-            border-radius:15px;
-            box-shadow:0px 0px 15px rgba(0,0,0,.2);
-        }
+<title>AI Pet Image Classifier</title>
 
-        h1{
-            color:#333;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-        button{
-            padding:12px 25px;
-            background:#4CAF50;
-            color:white;
-            border:none;
-            border-radius:8px;
-            cursor:pointer;
-            font-size:18px;
-        }
+<style>
 
-    </style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+background:linear-gradient(135deg,#0f172a,#1e293b,#2563eb);
+
+min-height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+padding:30px;
+
+}
+
+.container{
+
+width:500px;
+
+background:rgba(255,255,255,.12);
+
+backdrop-filter:blur(18px);
+
+border-radius:25px;
+
+padding:35px;
+
+box-shadow:0 20px 40px rgba(0,0,0,.35);
+
+text-align:center;
+
+color:white;
+
+}
+
+h1{
+
+font-size:40px;
+
+margin-bottom:10px;
+
+}
+
+.subtitle{
+
+opacity:.8;
+
+margin-bottom:25px;
+
+}
+
+.upload{
+
+border:2px dashed rgba(255,255,255,.5);
+
+padding:30px;
+
+border-radius:20px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.upload:hover{
+
+background:rgba(255,255,255,.1);
+
+}
+
+input[type=file]{
+
+display:none;
+
+}
+
+label{
+
+cursor:pointer;
+
+font-size:18px;
+
+display:block;
+
+}
+
+button{
+
+margin-top:25px;
+
+padding:15px 45px;
+
+border:none;
+
+border-radius:50px;
+
+background:#22c55e;
+
+color:white;
+
+font-size:20px;
+
+cursor:pointer;
+
+transition:.3s;
+
+font-weight:bold;
+
+}
+
+button:hover{
+
+transform:scale(1.05);
+
+background:#16a34a;
+
+}
+
+.preview{
+
+margin-top:25px;
+
+}
+
+.preview img{
+
+width:250px;
+
+border-radius:15px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.3);
+
+}
+
+.result{
+
+margin-top:25px;
+
+font-size:34px;
+
+font-weight:bold;
+
+}
+
+.conf{
+
+margin-top:10px;
+
+font-size:22px;
+
+}
+
+.bar{
+
+margin-top:15px;
+
+height:12px;
+
+background:white;
+
+border-radius:20px;
+
+overflow:hidden;
+
+}
+
+.fill{
+
+height:100%;
+
+background:#22c55e;
+
+}
+
+.footer{
+
+margin-top:30px;
+
+font-size:14px;
+
+opacity:.7;
+
+}
+
+</style>
 
 </head>
 
 <body>
 
-<div class="box">
+<div class="container">
 
-<h1>🐶🐱 Pet Image Classification</h1>
+<h1>🐶🐱 AI Pet Classifier</h1>
+
+<p class="subtitle">
+
+Upload an image and let AI identify whether it's a Cat or Dog.
+
+</p>
 
 <form action="/predict" method="POST" enctype="multipart/form-data">
 
-<input type="file" name="image" required>
+<label class="upload">
 
-<br><br>
+📤 Click here to upload image
 
-<button type="submit">
+<input
 
-Predict
+type="file"
+
+name="image"
+
+accept="image/*"
+
+required
+
+onchange="previewImage(event)"
+
+>
+
+</label>
+
+<div class="preview" id="preview"></div>
+
+<button>
+
+✨ Predict Image
 
 </button>
 
@@ -61,11 +256,64 @@ Predict
 
 {% if prediction %}
 
-<h2>{{prediction}}</h2>
+<div class="result">
 
-{% endif %}
+{{prediction}}
 
 </div>
 
+<div class="conf">
+
+Confidence : {{confidence}}%
+
+</div>
+
+<div class="bar">
+
+<div
+
+class="fill"
+
+style="width:{{confidence}}%;">
+
+</div>
+
+</div>
+
+<div class="preview">
+
+<img src="{{image}}">
+
+</div>
+
+{% endif %}
+
+<div class="footer">
+
+Made by <b>Aditya Dixit</b>
+
+</div>
+
+</div>
+
+<script>
+
+function previewImage(event){
+
+const preview=document.getElementById("preview");
+
+preview.innerHTML="";
+
+const img=document.createElement("img");
+
+img.src=URL.createObjectURL(event.target.files[0]);
+
+preview.appendChild(img);
+
+}
+
+</script>
+
 </body>
+
 </html>
